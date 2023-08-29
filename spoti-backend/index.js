@@ -3,6 +3,7 @@ const request = require("request");
 const cors = require("cors");
 const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
+const { db, cors: options } = require("./configs");
 const { error } = require("console");
 
 const clientId = "CLIENT_ID";
@@ -21,6 +22,10 @@ const generateRandomString = (length) => {
 };
 
 const app = express();
+
+//app.use(cors(options));
+app.use(express.json());
+app.use(cookieParser());
 
 app.get("/login", (req, res) => {
   const state = generateRandomString(16);
@@ -115,6 +120,10 @@ app.get("/refresh_token", (req, res) => {
       });
     }
   });
+
+  console.log(request);
 });
 
-app.listen("App listening on port ", 3000);
+app.listen(process.env.PORT, () =>
+  console.info(`App listening at: ${process.env.PORT}`)
+);
