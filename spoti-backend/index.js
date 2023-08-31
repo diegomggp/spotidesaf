@@ -2,10 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const request = require("request");
 const cors = require("cors");
-const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
 const { db, cors: options } = require("./configs");
-const errors = require("./misc/errors");
+//const errors = require("./misc/errors");
 
 const clientId = "CLIENT_ID";
 const clientSecret = "CLIENT_SECRET";
@@ -32,10 +31,10 @@ const routes = require("./routes");
 
 app.use(routes(db));
 
-app.use((_, __, next) => {
-  next(errors[404]);
-});
-
+/**
+ app.use((_, __, next) => {
+   next(errors[404]);
+ });
 app.use(({ statusCode, error }, _, res, __) => {
   res.status(statusCode).json({
     success: false,
@@ -43,6 +42,8 @@ app.use(({ statusCode, error }, _, res, __) => {
   });
 });
 
+ */
+/*
 app.get("/login", (req, res) => {
   const state = generateRandomString(16);
   const scope = "user-read-private user-read-email";
@@ -59,6 +60,8 @@ app.get("/login", (req, res) => {
   );
 });
 
+*/
+/**
 app.get("/callback", (req, res) => {
   const code = req.query.code || null;
   const state = req.query.state || null;
@@ -139,7 +142,7 @@ app.get("/refresh_token", (req, res) => {
 
   console.log(request);
 });
-
+ */
 app.listen(process.env.PORT, () =>
   console.info(`App listening at: ${process.env.PORT}`)
 );
