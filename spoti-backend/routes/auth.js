@@ -17,8 +17,6 @@ const generateRandomString = (length) => {
 };
 
 module.exports = () => {
-  //router.post("/signin", authControllers.signin());
-  //router.post("/signout", authControllers.signout());
   router.get("/login", (req, res) => {
     const state = generateRandomString(16);
     const scope = "user-read-private user-read-email";
