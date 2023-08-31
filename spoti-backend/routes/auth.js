@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const querystring = require("querystring");
-
+const request = require("request");
 const clientId = "CLIENT_ID";
 const clientSecret = "CLIENT_SECRET";
 const redirectUrl = "REDIRECT_URL";
@@ -22,6 +22,7 @@ module.exports = () => {
   router.get("/login", (req, res) => {
     const state = generateRandomString(16);
     const scope = "user-read-private user-read-email";
+    console.log(redirectUrl);
 
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
@@ -29,7 +30,7 @@ module.exports = () => {
           response_type: "code",
           client_id: clientId,
           scope: scope,
-          redurect_url: redirectUrl,
+          redirect_uri: redirectUrl,
           state: state,
         })
     );
@@ -38,10 +39,8 @@ module.exports = () => {
     const code = req.query.code || null;
     const state = req.query.state || null;
 
-    console.log(req);
-
     console.log("Code: ", code);
-    console.log("state: ", state);
+    console.log("State: ", state);
 
     if (state === null) {
       res.redirect(
@@ -55,7 +54,7 @@ module.exports = () => {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          redirect_url: redirectUrl,
+          redirect_uri: redirectUrl,
           grant_type: "authorization_code",
         },
         headers: {
